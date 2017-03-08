@@ -1,0 +1,44 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar {
+	baseName = 'myspringboot'
+	version  = '0.1.0'
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-web")
+	compile("org.springframework.boot:spring-boot-starter-jdbc")
+	compile("org.springframework.boot:spring-boot-devtools")
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
+	compile group: 'javax.persistence', name: 'persistence-api', version: '1.0.2'
+	compile "mysql:mysql-connector-java:5.1.38"
+	compile("org.thymeleaf:thymeleaf-spring4")
+	compile("com.h2database:h2")
+	compile("org.springframework.boot:spring-boot-starter-security")
+	
+	compile group: 'com.google.code.gson', name: 'gson', version: '2.8.0'
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.0'
+}

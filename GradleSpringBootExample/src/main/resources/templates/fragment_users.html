@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="css/semantic.css" />
+<script src="js/jquery.min.js"></script>
+
+<script src="js/semantic.min.js"></script>
+<title>Users list</title>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	
+});
+</script>
+</head>
+<body>
+	<div th:fragment="userAdd">
+		<h3>Add a user</h3>
+		<div>
+			<form action="#" th:action="@{/add}" method="post">
+				<label for="name">Name:</label>&nbsp;
+				<input type="text" name="name" id="name" /><br /> <br />
+				<label for="email">Email:</label>&nbsp;
+				<input type="text" name="email" id="email" /><br />
+				<!--
+				<select class="ui dropdown">
+			      <option value="">Gender</option>
+				  <option th:each="gender: ${genderMap}" th:value="${gender.value}" th:text="${gender.key}">Gender</option>
+				</select>
+				 -->
+				
+				<div class="ui selection dropdown">
+				  <input name="gender" type="hidden"/>
+				  <i class="dropdown icon"></i>
+				  <div class="default text">Gender</div>
+				  <div class="menu">
+				    <div class="item" th:each="gender: ${genderMap}" th:attr="data-value=${gender.value}" th:text="${gender.key}">Male</div>
+				  </div>
+				</div>
+				
+				<input type="submit" value="Add" />
+			</form>
+		</div>
+	</div>
+
+	<div th:fragment="userList">
+		<h3>User List:</h3>
+		<table class="ui celled table">
+			<thead>
+				<tr>
+					<th th:text="#{header.user.id}">Id</th>
+					<th th:text="#{header.user.name}">Name</th>
+					<th th:text="#{header.user.email}">Email</th>
+					<th th:text="#{header.user.gender}">Gender</th>
+					<th th:text="#{operations}">Operations</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user: ${users}">
+					<td th:text="${user.id}">Id</td>
+					<td th:text="${user.name}">name</td>
+					<td th:text="${user.email}">email</td>
+					<td th:text="${user.gender} eq 0 ? #{gender.male} : #{gender.female}">gender</td>
+					<td><a th:href="@{/delete/__${user.id}__}" th:text="#{delete}">Delete</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<nav>
+			<div class="ui pagination stackable menu pagination-centered" th:with="current=${pageIndex+1}">
+				<a th:class="'item ' + (${isFirst} ? 'disabled' : '')" href="#" th:href="@{/home(page=1)}">First</a> 
+				<a th:class="'item ' + (${hasPrevious} ? '' : 'disabled')" href="#" th:href="@{/home(page=(${current}-1 eq 0 ? 1 : ${current-1}))}"> Previous </a>
+				<div class="item" th:text="${current}+'/'+${totalPages}">1</div>
+				<a th:class="'item ' + (${hasNext} ? '' : 'disabled')" href="#" th:href="@{/home(page=(${current+1} gt ${totalPages} ? ${totalPages} : ${current+1}))}"> Next </a>
+				<a th:class="'item '+ (${isLast} ? 'disabled' : '')" href="#" th:href="@{/home(page=${totalPages})}">Last</a>
+			</div>
+		</nav>
+	</div>
+</body>
+</html>
